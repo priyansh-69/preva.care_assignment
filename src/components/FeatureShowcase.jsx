@@ -180,10 +180,10 @@ function FeatureShowcase() {
         ref={containerRef}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-16"
       >
-        {/* mobile layout - improved */}
-        <div className="lg:hidden">
+        {/* Mobile Layout - Stacked vertically */}
+        <div className="lg:hidden space-y-8">
           {/* Phone mockup at top */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center">
             <PhoneMockup 
               feature={features[activeFeature]} 
               isActive={true}
@@ -191,7 +191,7 @@ function FeatureShowcase() {
           </div>
           
           {/* Feature detail below phone */}
-          <div className="mb-8">
+          <div>
             <FeatureDetail 
               feature={features[activeFeature]}
               onNavigate={navigateFeature}
@@ -199,7 +199,7 @@ function FeatureShowcase() {
           </div>
           
           {/* Feature list at bottom */}
-          <div>
+          <div className="mb-8">
             <FeatureList 
               features={features}
               activeFeature={activeFeature}
@@ -208,8 +208,9 @@ function FeatureShowcase() {
           </div>
         </div>
 
-        {/* desktop layout */}
-        <div className="hidden lg:grid lg:grid-cols-3 lg:gap-12 lg:items-center">
+        {/* Desktop Layout - 3 columns: Left(Content) | Center(iPhone) | Right(Feature List) */}
+        <div className="hidden lg:grid lg:grid-cols-3 lg:gap-12 lg:items-start lg:pt-8">
+          {/* Left Column: Feature Details + Navigation Arrows */}
           <div className="col-span-1">
             <FeatureDetail 
               feature={features[activeFeature]}
@@ -217,6 +218,7 @@ function FeatureShowcase() {
             />
           </div>
           
+          {/* Center Column: iPhone Mockup */}
           <div className="col-span-1 flex justify-center">
             <PhoneMockup 
               feature={features[activeFeature]} 
@@ -224,6 +226,7 @@ function FeatureShowcase() {
             />
           </div>
           
+          {/* Right Column: Clickable Feature List */}
           <div className="col-span-1">
             <FeatureList 
               features={features}

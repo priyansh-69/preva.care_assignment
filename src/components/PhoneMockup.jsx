@@ -5,7 +5,7 @@ const PhoneMockup = ({ feature, isActive }) => {
   
   return (
     <div className="relative animate-fade-in">
-      <div className={phoneSize}>
+      <div className={`${phoneSize} bg-white rounded-3xl p-2 shadow-2xl border-2 border-gray-100`}>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl sm:shadow-2xl">
           <div className="absolute inset-1.5 sm:inset-2 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden bg-black">
             <div className="w-full h-full bg-gradient-to-b from-phone-pink via-phone-light to-phone-purple"></div>
