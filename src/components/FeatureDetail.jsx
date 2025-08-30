@@ -2,30 +2,30 @@ import React from 'react';
 
 function FeatureDetail({ feature, onNavigate }) {
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="text-feature-blue font-medium text-sm sm:text-base tracking-wide">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in text-center lg:text-left">
+      <div className="text-feature-blue font-medium text-xs sm:text-sm lg:text-base tracking-wide">
         {feature.title}
       </div>
       
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight">
         {feature.heading}
       </h2>
       
-      <div className="space-y-3">
+      <div className="space-y-3 sm:space-y-4 max-w-lg mx-auto lg:mx-0">
         {feature.description.map((item, index) => (
-          <div key={index} className="flex items-start space-x-3">
+          <div key={index} className="flex items-start space-x-3 text-left">
             <div className="flex-shrink-0 w-2 h-2 bg-feature-blue rounded-full mt-2"></div>
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-600 text-sm sm:text-base leading-relaxed flex-1">
               {item}
             </p>
           </div>
         ))}
       </div>
       
-      <div className="flex items-center space-x-4 pt-4">
+      <div className="flex items-center justify-center space-x-6 pt-4 sm:pt-6">
         <button
           onClick={() => onNavigate('prev')}
-          className="group p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2"
+          className="group p-4 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2 touch-target"
           aria-label="Previous feature"
         >
           <svg 
@@ -47,7 +47,7 @@ function FeatureDetail({ feature, onNavigate }) {
         
         <button
           onClick={() => onNavigate('next')}
-          className="group p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2"
+          className="group p-4 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2 touch-target"
           aria-label="Next feature"
         >
           <svg 

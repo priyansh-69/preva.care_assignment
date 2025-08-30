@@ -13,6 +13,8 @@ function FeatureShowcase() {
   const containerRef = useRef(null);
   const lastScrollY = useRef(0);
   const autoAdvanceTimeout = useRef(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
   // arrow keys
   useEffect(() => {
@@ -28,7 +30,53 @@ function FeatureShowcase() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [activeFeature]);
 
-  // scroll stuff
+  // touch gestures for mobile
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+      if (!touchStartX.current || !touchStartY.current) return;
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      
+      const deltaX = touchStartX.current - touchEndX;
+      const deltaY = touchStartY.current - touchEndY;
+      
+      // Only handle horizontal swipes if they're more horizontal than vertical
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          // Swipe left - next feature
+          navigateFeature('next');
+        } else {
+          // Swipe right - previous feature
+          navigateFeature('prev');
+        }
+      }
+      
+      touchStartX.current = 0;
+      touchStartY.current = 0;
+    };
+
+    // Add touch event listeners
+    const element = sectionRef.current;
+    if (element) {
+      element.addEventListener('touchstart', handleTouchStart, { passive: true });
+      element.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
+    return () => {
+      if (element) {
+        element.removeEventListener('touchstart', handleTouchStart);
+        element.removeEventListener('touchend', handleTouchEnd);
+      }
+    };
+  }, [activeFeature]);
+
+  // scroll behavior - fixed for strict requirements
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
@@ -37,27 +85,47 @@ function FeatureShowcase() {
       const windowHeight = window.innerHeight;
       const sectionHeight = rect.height;
       
-      const progress = Math.max(0, Math.min(1, 
-        (windowHeight - rect.top) / (windowHeight + sectionHeight)
-      ));
+      // Calculate scroll progress through the section
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
       
-      setScrollProgress(progress);
-
-      if (rect.top <= 0 && rect.bottom >= windowHeight) {
+      // Section becomes sticky when it reaches the top
+      if (sectionTop <= 0 && sectionBottom >= windowHeight) {
         setIsSticky(true);
         
-        const targetFeature = Math.floor(progress * features.length);
-        if (targetFeature !== activeFeature && targetFeature < features.length) {
+        // Calculate progress through the sticky section (0 to 1)
+        const stickyHeight = sectionHeight - windowHeight;
+        const scrollDistance = Math.abs(sectionTop);
+        const currentProgress = Math.min(scrollDistance / stickyHeight, 1);
+        
+        setScrollProgress(currentProgress);
+        
+        // Auto-advance features 1 → 5 based on scroll progress
+        // Feature 1: 0-20% scroll, Feature 2: 20-40%, etc.
+        const featureIndex = Math.floor(currentProgress * features.length);
+        const clampedFeatureIndex = Math.min(featureIndex, features.length - 1);
+        
+        if (clampedFeatureIndex !== activeFeature && clampedFeatureIndex >= 0) {
           if (autoAdvanceTimeout.current) {
             clearTimeout(autoAdvanceTimeout.current);
           }
           
           autoAdvanceTimeout.current = setTimeout(() => {
-            setActiveFeature(targetFeature);
-          }, 100);
+            console.log(`Auto-advancing from Feature ${activeFeature + 1} to Feature ${clampedFeatureIndex + 1} (${Math.round(currentProgress * 100)}% scroll)`);
+            setActiveFeature(clampedFeatureIndex);
+          }, 50);
         }
       } else {
+        // Section is not sticky
         setIsSticky(false);
+        
+        if (sectionTop > 0) {
+          // Section is above viewport - no progress
+          setScrollProgress(0);
+        } else if (sectionBottom < windowHeight) {
+          // Section is below viewport - full progress
+          setScrollProgress(1);
+        }
       }
 
       lastScrollY.current = window.scrollY;
@@ -89,11 +157,11 @@ function FeatureShowcase() {
   return (
     <div 
       ref={sectionRef}
-      className={`min-h-screen bg-white transition-all duration-300 ${
+      className={`min-h-[150vh] bg-white transition-all duration-300 ${
         isSticky ? 'sticky top-0 z-10' : ''
       }`}
     >
-      {/* progress bar */}
+      {/* progress bar - visible on all devices */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <div 
           className="h-full bg-gradient-to-r from-feature-pink via-feature-purple to-feature-blue transition-all duration-300"
@@ -101,26 +169,36 @@ function FeatureShowcase() {
         />
       </div>
 
+      {/* sticky indicator - shows when section is sticky */}
+      {isSticky && (
+        <div className="fixed top-1 left-4 z-40 bg-blue-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+          Auto-Advance: Feature {activeFeature + 1} of {features.length} ({Math.round(scrollProgress * 100)}%)
+        </div>
+      )}
+
       <div 
         ref={containerRef}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-16"
       >
-        {/* mobile */}
-        <div className="lg:hidden space-y-8">
-          <div className="flex justify-center">
+        {/* mobile layout - improved */}
+        <div className="lg:hidden">
+          {/* Phone mockup at top */}
+          <div className="flex justify-center mb-8">
             <PhoneMockup 
               feature={features[activeFeature]} 
               isActive={true}
             />
           </div>
           
-          <div className="text-center">
+          {/* Feature detail below phone */}
+          <div className="mb-8">
             <FeatureDetail 
               feature={features[activeFeature]}
               onNavigate={navigateFeature}
             />
           </div>
           
+          {/* Feature list at bottom */}
           <div>
             <FeatureList 
               features={features}
@@ -130,7 +208,7 @@ function FeatureShowcase() {
           </div>
         </div>
 
-        {/* desktop */}
+        {/* desktop layout */}
         <div className="hidden lg:grid lg:grid-cols-3 lg:gap-12 lg:items-center">
           <div className="col-span-1">
             <FeatureDetail 
@@ -154,6 +232,9 @@ function FeatureShowcase() {
             />
           </div>
         </div>
+        
+        {/* Additional scroll space for sticky behavior */}
+        <div className="h-32 lg:h-48"></div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ export const features = [
   {
     id: 1,
     title: "Feature No.1 -",
-    heading: "LOREM IPSUM 1",
+    heading: "TEXT HEADING DISPLAY",
     description: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -14,7 +14,7 @@ export const features = [
   {
     id: 2,
     title: "Feature No.2 -",
-    heading: "LOREM IPSUM 2",
+    heading: "FEATURE SHOWCASE",
     description: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -26,7 +26,7 @@ export const features = [
   {
     id: 3,
     title: "Feature No.3 -",
-    heading: "LOREM IPSUM 3",
+    heading: "INTERACTIVE DESIGN",
     description: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -38,7 +38,7 @@ export const features = [
   {
     id: 4,
     title: "Feature No.4 -",
-    heading: "LOREM IPSUM 4",
+    heading: "RESPONSIVE LAYOUT",
     description: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -50,7 +50,7 @@ export const features = [
   {
     id: 5,
     title: "Feature No.5 -",
-    heading: "LOREM IPSUM 5",
+    heading: "MODERN INTERFACE",
     description: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",

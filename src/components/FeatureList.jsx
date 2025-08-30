@@ -2,12 +2,12 @@ import React from 'react';
 
 function FeatureList({ features, activeFeature, onSelectFeature }) {
   return (
-    <div className="space-y-4">
-      <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+    <div className="space-y-4 sm:space-y-6">
+      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6 text-center lg:text-left">
         Feature Showcase
       </h3>
       
-      <div className="space-y-3">
+      <div className="space-y-3 sm:space-y-4 max-w-md mx-auto lg:mx-0">
         {features.map((feature, index) => {
           const isActive = index === activeFeature;
           
@@ -15,10 +15,10 @@ function FeatureList({ features, activeFeature, onSelectFeature }) {
             <button
               key={feature.id}
               onClick={() => onSelectFeature(index)}
-              className={`w-full text-left p-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2 ${
+              className={`w-full text-left p-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-feature-blue focus:ring-offset-2 active:scale-[0.98] touch-target ${
                 isActive
-                  ? 'bg-blue-50 border-l-4 border-feature-blue pl-4'
-                  : 'hover:bg-gray-50 pl-4'
+                  ? 'bg-blue-50 border-l-4 border-feature-blue shadow-sm'
+                  : 'hover:bg-gray-50 border-l-4 border-transparent'
               }`}
               aria-label={`Select ${feature.title}`}
               aria-pressed={isActive}
@@ -36,7 +36,7 @@ function FeatureList({ features, activeFeature, onSelectFeature }) {
                       ? 'text-gray-900 text-base' 
                       : 'text-gray-600 text-sm'
                   }`}>
-                    LOREM IPSUM {feature.id}
+                    {feature.heading}
                   </div>
                 </div>
               </div>

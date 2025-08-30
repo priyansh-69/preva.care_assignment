@@ -1,4 +1,4 @@
-# Feature Showcase - MERN Internship Assignment
+1# Feature Showcase - MERN Internship Assignment
 
 A modern, responsive Feature Showcase section built with React.js and Tailwind CSS. This project demonstrates advanced UI interactions including sticky scroll behavior, auto-advancing features, and smooth animations.
 
